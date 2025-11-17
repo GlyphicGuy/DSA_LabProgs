@@ -1,0 +1,63 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+bool hasCycle(struct ListNode *head) {
+    struct ListNode *slow = head;
+    struct ListNode *fast = head;
+
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;           
+        fast = fast->next->next;     
+
+        if (slow == fast) {
+            return true;             
+        }
+    }
+
+    return false;                    
+}
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
+    if (head == NULL) {
+        return head;
+    }
+
+    struct ListNode *temp = head;
+    int size = 0;
+
+
+    while (temp != NULL) {
+        size++;
+        temp = temp->next;
+    }
+
+    if (n == size) {
+        struct ListNode* newHead = head->next;
+        free(head);  
+        return newHead;
+    }
+
+
+    temp = head;
+    for (int i = 0; i < size - n - 1; i++) {
+        temp = temp->next;
+    }
+
+    struct ListNode* toDelete = temp->next;
+    temp->next = temp->next->next;
+    free(toDelete);  
+
+    return head;
+}
